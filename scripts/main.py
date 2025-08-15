@@ -2,20 +2,18 @@ import duckdb
 
 
 # Utilizar o duckdb em memória
-
 con_memory = duckdb.connect(database=':memory:', read_only=False)
 
-con_memory.execute("SELECT * FROM './products.csv'").fetchdf()
-con_memory.execute("SELECT * FROM './products.parquet'").fetchdf()
+con_memory.execute("SELECT * FROM './../data/products.csv'").fetchdf()
+con_memory.execute("SELECT * FROM './../data/products.parquet'").fetchdf()
 
 
 # Utilizar com um .db
-
 db_file = 'my_duckdb.db'
 con_file = duckdb.connect(database=db_file, read_only=False)
 
-con_file.execute("CREATE OR REPLACE TABLE products_csv AS SELECT * FROM './products.csv'")
-con_file.execute("CREATE OR REPLACE TABLE products_parquet AS SELECT * FROM './products.parquet'")
+con_file.execute("CREATE OR REPLACE TABLE products_csv AS SELECT * FROM './../data/products.csv'")
+con_file.execute("CREATE OR REPLACE TABLE products_parquet AS SELECT * FROM './../data/products.parquet'")
 
 aggregation_query = """
     SELECT 
