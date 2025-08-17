@@ -2,3 +2,5 @@
 my_duckdb.db
 scrpts/create_parquet.py
 scrpts/t1.py
+scrpts/t2.py
+scrpts/t*.py
