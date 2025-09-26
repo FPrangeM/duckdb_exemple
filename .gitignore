@@ -1,4 +1,7 @@
 /.venv
 data/parquets/*
+data/csvs/*
 scripts/my_duckdb.db
+scripts/mysql.db
 scripts/t*.py
+results

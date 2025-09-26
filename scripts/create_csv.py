@@ -4,7 +4,7 @@ import time
 import os
 import math
 
-# Define o tamanho máximo do arquivo Parquet e inicializa variáveis auxiliares
+# Define o tamanho máximo do arquivo csv e inicializa variáveis auxiliares
 max_file_size = 10_000_000
 file_size = max_file_size
 file_sizes = []
@@ -21,17 +21,17 @@ while file_size >= 100:
 input_csv_path = '../data/products.csv'
 df = pd.read_csv(input_csv_path)
 
-# Para cada tamanho de arquivo desejado, gera um arquivo Parquet correspondente
+# Para cada tamanho de arquivo desejado, gera um arquivo csv correspondente
 for file_size in file_sizes[::-1]:
 
     # Calcula quantas vezes o DataFrame deve ser replicado para atingir o tamanho desejado
     n_replications = int(file_size / df.shape[0])
-    file_name = f'products_{file_size:0{leading_zeros}d}.parquet'
-    output_path = "../data/parquets/"+file_name
+    file_name = f'products_{file_size:0{leading_zeros}d}.csv'
+    output_path = "../data/csvs/"+file_name
     if os.path.exists(output_path):
         os.remove(output_path)
 
-    # Cria o arquivo Parquet usando DuckDB e mede o tempo de execução
+    # Cria o arquivo csv usando DuckDB e mede o tempo de execução
     start_time = time.time()
     con = duckdb.connect(database=':memory:')
 
@@ -40,7 +40,7 @@ for file_size in file_sizes[::-1]:
         SELECT t.*
         FROM '{input_csv_path}' t
         CROSS JOIN generate_series(1, {n_replications})
-    ) TO '{output_path}' (FORMAT 'PARQUET');
+    ) TO '{output_path}' (FORMAT 'CSV');
     """
 
     con.execute(query)
